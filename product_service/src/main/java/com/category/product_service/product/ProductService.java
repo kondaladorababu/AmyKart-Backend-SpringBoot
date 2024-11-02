@@ -1,4 +1,4 @@
-package com.example.product_service.product;
+package com.category.product_service.product;
 
 import java.util.List;
 
