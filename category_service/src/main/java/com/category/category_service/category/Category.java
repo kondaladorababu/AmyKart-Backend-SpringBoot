@@ -1,8 +1,7 @@
-package com.category.category_service;
+package com.category.category_service.category;
 
 import jakarta.persistence.*;
 import java.util.Arrays;
-import java.util.List;
 
 @Entity
 @Table(name = "category")

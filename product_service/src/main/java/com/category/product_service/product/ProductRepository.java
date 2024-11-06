@@ -1,4 +1,4 @@
-package com.example.product_service.product;
+package com.category.product_service.product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

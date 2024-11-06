@@ -1,4 +1,4 @@
-package com.example.product_service.product;
+package com.category.product_service.product;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

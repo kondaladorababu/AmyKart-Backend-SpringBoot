@@ -1,4 +1,4 @@
-package com.category.category_service;
+package com.category.category_service.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

@@ -1,4 +1,4 @@
-package com.category.category_service;
+package com.category.category_service.category;
 
 public class CategoryResponse {
     private final int id;
