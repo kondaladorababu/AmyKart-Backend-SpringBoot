@@ -5,7 +5,7 @@ import java.util.List;
 public interface ProductService {
     List<Product> findAll();
 
-    void createProduct(Integer categoryId, Product product);
+    void createProduct(Product product);
 
     Product getProductById(Integer id);
 
@@ -13,5 +13,5 @@ public interface ProductService {
 
     boolean updateProduct(Integer id, Product product);
 
-//    List<Product> findProductsByCategoryId(Integer categoryId);
+    List<Product> findProductsByCategoryId(Integer categoryId);
 }

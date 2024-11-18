@@ -29,13 +29,15 @@ public class ProductController {
         return ResponseEntity.ok(productResponses);
     }
 
-//    @GetMapping("/category/{categoryId}")
-//    public ResponseEntity<List<ProductResponseDTO>> getProductsByCategoryId(@PathVariable Integer categoryId) {
-//        List<Product> products = productService.findProductsByCategoryId(categoryId);
-//        List<ProductResponseDTO> productResponses = products.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
-//        return ResponseEntity.ok(productResponses);
-//    }
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByCategoryId(@PathVariable Integer categoryId) {
+        List<Product> products = productService.findProductsByCategoryId(categoryId);
+        List<ProductResponseDTO> productResponses = products.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok(productResponses);
+    }
 
+
+    //for Development purpose
     @PostMapping("/add/{categoryId}")
     public ResponseEntity<String> addProduct(@PathVariable("categoryId") Integer categoryId,
                                              @RequestParam("title") String title,
@@ -50,9 +52,9 @@ public class ProductController {
             return new ResponseEntity<>("Only JPEG images are allowed", HttpStatus.BAD_REQUEST);
         }
 
-        Product newProduct = new Product(title, price, description, image.getBytes());
+        Product newProduct = new Product(title, price, description, image.getBytes(), categoryId);
 
-        productService.createProduct(categoryId, newProduct);
+        productService.createProduct(newProduct);
         return ResponseEntity.ok("Product added successfully");
     }
 

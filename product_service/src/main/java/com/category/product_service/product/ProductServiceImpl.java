@@ -1,7 +1,5 @@
 package com.category.product_service.product;
 
-//import com.example.product_service.category.Category;
-//import com.example.product_service.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +12,14 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private final ProductRepository productRepository;
 
-//    @Autowired
-//    private final CategoryRepository categoryRepository;
-
-//    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository) {
-//        this.productRepository = productRepository;
-//        this.categoryRepository = categoryRepository;
-//    }
 
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    @Override
+    public List<Product> findProductsByCategoryId(Integer categoryId) {
+        return productRepository.findProductsByCategoryId(categoryId);
     }
 
     public Optional<Product> getProductById(int id) {
@@ -36,12 +32,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void createProduct(Integer categoryId, Product product) {
-//        Category category = categoryRepository.findById(categoryId).orElse(null);
-//        if (category == null) {
-//            return;
-//        }
-//        product.setCategory(category);
+    public void createProduct(Product product) {
         productRepository.save(product);
     }
 
@@ -68,9 +59,4 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(existingProduct);
         return true;
     }
-
-//    @Override
-//    public List<Product> findProductsByCategoryId(Integer categoryId) {
-//        return productRepository.findProductsByCategoryId(categoryId);
-//    }
 }
