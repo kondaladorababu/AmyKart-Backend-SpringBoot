@@ -29,6 +29,7 @@ public class CategoryController {
         return ResponseEntity.ok(categories);
     }
 
+    //for Developer purpose
     @PostMapping("/add")
     public ResponseEntity<String> addCategory(@RequestParam("name") String name,
                             @RequestParam("image") MultipartFile image) throws IOException {
@@ -74,4 +75,5 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok("Category deleted successfully");
     }
+
 }
