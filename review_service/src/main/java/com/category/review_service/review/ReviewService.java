@@ -3,7 +3,7 @@ package com.category.review_service.review;
 import java.util.List;
 
 public interface ReviewService {
-//    List<Review> findByProductId(Integer productId);
+    List<Review> findByProductId(Integer productId);
 
     void createReview(Integer productId,Review review);
 
@@ -12,4 +12,6 @@ public interface ReviewService {
     boolean updateReview(Integer id, Review review);
 
     boolean deleteReview(Integer id);
+
+//    List<Review> getAllReviews(Integer productId);
 }

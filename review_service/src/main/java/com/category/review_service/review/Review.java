@@ -14,30 +14,21 @@ public class Review {
 
     private int userId;
 
-//    @ManyToOne
-//    @JsonBackReference
-//    private Product product;
-
     private int rating;
     private String review;
 
+    private int productId;
 
     public Review() {
     }
 
-    //constructor
-    public Review(int userId, int rating, String review) {
+    public Review(int userId, int rating, String review, int productId) {
         this.userId = userId;
         this.rating = rating;
         this.review = review;
+        this.productId = productId;
     }
 
-//    public Review(int userId, Product product, int rating, String review) {
-//        this.userId = userId;
-//        this.product = product;
-//        this.rating = rating;
-//        this.review = review;
-//    }
 
     public int getId() {
         return id;
@@ -55,13 +46,6 @@ public class Review {
         this.userId = userId;
     }
 
-//    public Product getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(Product product) {
-//        this.product = product;
-//    }
 
     public int getRating() {
         return rating;
@@ -78,4 +62,13 @@ public class Review {
     public void setReview(String review) {
         this.review = review;
     }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
 }
