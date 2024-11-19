@@ -1,8 +1,11 @@
 package com.category.product_service.product;
 
+import com.category.product_service.product.client.Review;
+import com.category.product_service.product.client.ReviewClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,23 +15,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private final ProductRepository productRepository;
 
+    @Autowired
+    private ReviewClient reviewClient;
 
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-    }
-
-    @Override
-    public List<Product> findProductsByCategoryId(Integer categoryId) {
-        return productRepository.findProductsByCategoryId(categoryId);
-    }
-
-    public Optional<Product> getProductById(int id) {
-        return productRepository.findById(id);
-    }
-
-    @Override
-    public List<Product> findAll() {
-        return productRepository.findAll();
     }
 
     @Override
@@ -38,12 +29,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Integer id) {
-        return productRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public void deleteProduct(Integer id) {
-        productRepository.deleteById(id);
+        Product product =  productRepository.findById(id).orElse(null);
+        return product;
     }
 
     @Override
@@ -58,5 +45,37 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setImage(product.getImage() != null ? product.getImage() : existingProduct.getImage());
         productRepository.save(existingProduct);
         return true;
+    }
+
+    @Override
+    public void deleteProduct(Integer id) {
+        reviewClient.deleteReviewsByProductId(id);
+        productRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ProductResponseDTO> findProductsByCategoryId(Integer categoryId) {
+        List<Product> products = productRepository.findProductsByCategoryId(categoryId);
+        List<ProductResponseDTO> productResponseDTOS = new ArrayList<ProductResponseDTO>();
+
+        for (Product product : products) {
+            List<Review> reviews = reviewClient.getReviewsByProductId(product.getId());
+            productResponseDTOS.add(new ProductResponseDTO(product, reviews));
+        }
+
+        return productResponseDTOS;
+    }
+
+    @Override
+    public List<ProductResponseDTO> findAll() {
+        List<Product> products = productRepository.findAll();
+        List<ProductResponseDTO> productResponseDTOS = new ArrayList<ProductResponseDTO>();
+
+        for (Product product : products) {
+            List<Review> reviews = reviewClient.getReviewsByProductId(product.getId());
+            productResponseDTOS.add(new ProductResponseDTO(product, reviews));
+        }
+
+        return productResponseDTOS;
     }
 }

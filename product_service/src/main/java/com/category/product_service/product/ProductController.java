@@ -1,5 +1,8 @@
 package com.category.product_service.product;
 
+import com.category.product_service.product.client.Review;
+import com.category.product_service.product.client.ReviewClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,24 +21,12 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @Autowired
+    private ReviewClient reviewClient;
+
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-
-    @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-        List<Product> products = productService.findAll();
-        List<ProductResponseDTO> productResponses = products.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
-        return ResponseEntity.ok(productResponses);
-    }
-
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<ProductResponseDTO>> getProductsByCategoryId(@PathVariable Integer categoryId) {
-        List<Product> products = productService.findProductsByCategoryId(categoryId);
-        List<ProductResponseDTO> productResponses = products.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
-        return ResponseEntity.ok(productResponses);
-    }
-
 
     //for Development purpose
     @PostMapping("/add/{categoryId}")
@@ -59,12 +50,15 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable Integer id) {
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Integer id) {
         Product product = productService.getProductById(id);
         if (product == null) {
-            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(new ProductResponseDTO(product));
+
+        List<Review> reviews = reviewClient.getReviewsByProductId(id);
+        ProductResponseDTO productResponseDTO = new ProductResponseDTO(product, reviews);
+        return ResponseEntity.ok(productResponseDTO);
     }
 
     @GetMapping("/image/{id}")
@@ -77,7 +71,6 @@ public class ProductController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("content-type", "image/jpeg");
         return new ResponseEntity<>(image, headers, HttpStatus.OK);
-
     }
 
     @PutMapping("/update/{id}")
@@ -100,6 +93,20 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product deleted successfully");
     }
+
+
+
+    @GetMapping
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
+        return ResponseEntity.ok(productService.findAll());
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByCategoryId(@PathVariable Integer categoryId) {
+        List<ProductResponseDTO> products = productService.findProductsByCategoryId(categoryId);
+        return ResponseEntity.ok(products);
+    }
+
 
 }
 
