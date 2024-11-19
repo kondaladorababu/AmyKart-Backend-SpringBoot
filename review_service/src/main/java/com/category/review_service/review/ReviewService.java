@@ -12,6 +12,4 @@ public interface ReviewService {
     boolean updateReview(Integer id, Review review);
 
     boolean deleteReview(Integer id);
-
-//    List<Review> getAllReviews(Integer productId);
 }

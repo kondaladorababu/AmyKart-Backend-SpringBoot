@@ -17,13 +17,6 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    //get all reviews of a product based on product id
-    @GetMapping("/all/product/{productId}")
-    public ResponseEntity<List<Review>> getAllReviews(@PathVariable("productId") Integer productId) {
-        List<Review> reviews = reviewService.findByProductId(productId);
-        return new ResponseEntity<>(reviews, HttpStatus.OK);
-    }
-
     @PostMapping("/add/{productId}")
     public ResponseEntity<String> createReview(@PathVariable("productId") Integer productId,  @RequestBody Review review) {
         reviewService.createReview(productId,review);
@@ -57,5 +50,12 @@ public class ReviewController {
             return new ResponseEntity<>("Review Not Found",HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>("Deleted Review",HttpStatus.OK);
+    }
+
+
+    @GetMapping("/all/product/{productId}")
+    public ResponseEntity<List<Review>> getAllReviews(@PathVariable("productId") Integer productId) {
+        List<Review> reviews = reviewService.findByProductId(productId);
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 }

@@ -16,12 +16,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> findByProductId(Integer productId) {
-        return reviewRepository.findReviewsByProductId(productId);
-    }
-
-    @Override
     public void createReview(Integer productId, Review review) {
+        review.setProductId(productId);
         reviewRepository.save(review);
     }
 
@@ -52,5 +48,10 @@ public class ReviewServiceImpl implements ReviewService {
         }
         return false;
 
+    }
+
+    @Override
+    public List<Review> findByProductId(Integer productId) {
+        return reviewRepository.findReviewsByProductId(productId);
     }
 }
