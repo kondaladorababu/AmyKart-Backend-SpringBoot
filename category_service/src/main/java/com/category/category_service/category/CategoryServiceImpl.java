@@ -1,5 +1,7 @@
 package com.category.category_service.category;
 
+import com.category.category_service.category.clients.Product;
+import com.category.category_service.category.clients.ProductClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private final CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductClient productClient;
 
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
@@ -37,6 +42,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateCategory(Category category) {
-        categoryRepository.save(category);
+        Category existingCategory = categoryRepository.findById(category.getId()).orElse(null);
+        if (existingCategory == null) {
+            return;
+        }
+        existingCategory.setName(category.getName() != null ? category.getName() : existingCategory.getName());
+        existingCategory.setImage(category.getImage() != null ? category.getImage() : existingCategory.getImage());
+        categoryRepository.save(existingCategory);
+    }
+
+    @Override
+    public List<Product> getProductsByCategoryId(Integer categoryId) {
+        return productClient.getProductsByCategoryId(categoryId);
     }
 }

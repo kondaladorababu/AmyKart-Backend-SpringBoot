@@ -1,5 +1,7 @@
 package com.category.category_service.category;
 
+import com.category.category_service.category.clients.Product;
+
 import java.util.List;
 
 public interface CategoryService {
@@ -10,8 +12,10 @@ public interface CategoryService {
 
     Category getCategoryById(Integer id);
 
+    void updateCategory(Category category);
+
     void deleteCategory(Integer id);
 
-    void updateCategory(Category category);
+    List<Product> getProductsByCategoryId(Integer categoryId);
 
 }
