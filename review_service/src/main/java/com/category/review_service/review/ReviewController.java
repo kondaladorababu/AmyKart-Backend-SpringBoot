@@ -56,6 +56,15 @@ public class ReviewController {
     @GetMapping("/all/product/{productId}")
     public ResponseEntity<List<Review>> getAllReviews(@PathVariable("productId") Integer productId) {
         List<Review> reviews = reviewService.findByProductId(productId);
+        if(reviews == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/all/product/{productId}")
+    public ResponseEntity<String> deleteReviewsByProductId(@PathVariable("productId") Integer productId) {
+        reviewService.deleteReviewsByProductId(productId);
+        return new ResponseEntity<>("Deleted Reviews", HttpStatus.OK);
     }
 }

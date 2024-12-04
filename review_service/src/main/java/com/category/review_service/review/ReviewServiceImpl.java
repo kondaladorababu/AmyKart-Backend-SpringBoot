@@ -52,6 +52,19 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> findByProductId(Integer productId) {
-        return reviewRepository.findReviewsByProductId(productId);
+       List<Review> reviews =  reviewRepository.findReviewsByProductId(productId);
+       if(reviews.isEmpty()){
+           return null;
+       }
+       return reviews;
     }
+
+    @Override
+    public void deleteReviewsByProductId(Integer productId) {
+        List<Review> reviews = reviewRepository.findReviewsByProductId(productId);
+        for (Review review : reviews) {
+            reviewRepository.deleteById(review.getId());
+        }
+    }
+
 }
